@@ -5,6 +5,7 @@ import com.blogspot.regulargeek.telegrambot.event.TelegramCommandResponseReadyEv
 import com.blogspot.regulargeek.telegrambot.service.RestApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 
 public abstract class TelegramCommandHandler<C extends TelegramCommand> {
@@ -16,7 +17,7 @@ public abstract class TelegramCommandHandler<C extends TelegramCommand> {
     @Autowired
     protected RestApiService restApiService;
 
-    protected void sendResponse(SendMessage message) {
+    protected void sendResponse(PartialBotApiMethod message) {
 
         TelegramCommandResponseReadyEvent responseReadyEvent = new TelegramCommandResponseReadyEvent(message);
         applicationEventPublisher.publishEvent(responseReadyEvent);

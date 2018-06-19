@@ -12,13 +12,13 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 public class TelegramConfiguration {
 
     @Autowired
-    private TelegramBot telegramMQTTBot;
+    private TelegramBot telegramBot;
 
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
         TelegramBotsApi botsApi = new TelegramBotsApi();
         try {
-            botsApi.registerBot(telegramMQTTBot);
+            botsApi.registerBot(telegramBot);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

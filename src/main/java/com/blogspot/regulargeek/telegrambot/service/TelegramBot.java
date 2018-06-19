@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -65,7 +67,29 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
 
     @Override
     public void onApplicationEvent(TelegramCommandResponseReadyEvent telegramCommandResponseReadyEvent) {
-        SendMessage message = (SendMessage) telegramCommandResponseReadyEvent.getSource();
+        PartialBotApiMethod method = (PartialBotApiMethod) telegramCommandResponseReadyEvent.getSource();
+        if (method instanceof SendMessage) {
+            handleTextMessage(method);
+        }
+
+        if (method instanceof SendPhoto) {
+            try {
+                handlePhoto(method);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+
+        throw new RuntimeException("Not supported Telegram message type");
+
+    }
+
+    private void handlePhoto(PartialBotApiMethod method) throws TelegramApiException {
+        sendPhoto((SendPhoto) method);
+    }
+
+    private void handleTextMessage(PartialBotApiMethod method) {
+        SendMessage message = (SendMessage)method;
         List<String> splittedMessages = MessageUtil.splitEqually(message.getText(), MessageUtil.MAX_MESSAGE_LENGTH);
         splittedMessages.stream().forEach(s -> {
             message.setText(s);
@@ -75,6 +99,5 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
                 e.printStackTrace();
             }
         });
-
     }
 }
