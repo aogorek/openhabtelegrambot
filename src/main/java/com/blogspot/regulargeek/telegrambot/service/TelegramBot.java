@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -43,7 +44,20 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
         }
         if (update.hasMessage() && update.getMessage().hasText()) {
             handlePost(update.getMessage());
+            return;
         }
+        if (update.getCallbackQuery() != null) {
+            handleCallBack(update.getCallbackQuery());
+        }
+    }
+
+    private void handleCallBack(CallbackQuery callbackQuery) {
+        Message sourceMessage = callbackQuery.getMessage();
+        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+                .setChatId(sourceMessage.getChatId())
+                .setText(callbackQuery.getData());
+        TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
+        applicationEventPublisher.publishEvent(event);
     }
 
     private void handlePost(Message sourceMessage) {
@@ -70,11 +84,13 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
         PartialBotApiMethod method = (PartialBotApiMethod) telegramCommandResponseReadyEvent.getSource();
         if (method instanceof SendMessage) {
             handleTextMessage(method);
+            return;
         }
 
         if (method instanceof SendPhoto) {
             try {
                 handlePhoto(method);
+                return;
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

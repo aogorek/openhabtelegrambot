@@ -8,6 +8,16 @@ public class ItemDTO {
     private String state;
     private String name;
     private String label;
+    private String type;
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getLabel() {
         return label;
@@ -24,8 +34,6 @@ public class ItemDTO {
     public void setType(String type) {
         this.type = type;
     }
-
-    private String type;
 
     public String getLink() {
         return link;
