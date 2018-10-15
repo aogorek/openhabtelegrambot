@@ -17,6 +17,7 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,6 +28,9 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
 
     @Value("${botToken}")
     private String botToken;
+
+    @Value("${allowedChatIDs}")
+    private String allowedChatIDs;
 
     @Autowired
     RestApiService restApiService;
@@ -53,19 +57,23 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
 
     private void handleCallBack(CallbackQuery callbackQuery) {
         Message sourceMessage = callbackQuery.getMessage();
-        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                .setChatId(sourceMessage.getChatId())
-                .setText(callbackQuery.getData());
-        TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
-        applicationEventPublisher.publishEvent(event);
+	if (allowedChatIDs.equals("") || allowedChatIDs.equals("*") || Arrays.asList(allowedChatIDs.split(",")).contains(Long.toString(sourceMessage.getChatId()))) {
+		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+		        .setChatId(sourceMessage.getChatId())
+		        .setText(callbackQuery.getData());
+		TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
+		applicationEventPublisher.publishEvent(event);
+	}
     }
 
     private void handlePost(Message sourceMessage) {
-        SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                .setChatId(sourceMessage.getChatId())
-                .setText(sourceMessage.getText());
-        TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
-        applicationEventPublisher.publishEvent(event);
+	if (allowedChatIDs.equals("") || allowedChatIDs.equals("*") || Arrays.asList(allowedChatIDs.split(",")).contains(Long.toString(sourceMessage.getChatId()))) {
+		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
+		        .setChatId(sourceMessage.getChatId())
+		        .setText(sourceMessage.getText());
+		TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
+		applicationEventPublisher.publishEvent(event);
+	}
     }
 
 
