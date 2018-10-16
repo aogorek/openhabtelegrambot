@@ -48,7 +48,7 @@ public class ChartCommandParser implements SingleCommandParser {
     @Override
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Returns CHART of specified ITEM.")
+        builder.append("Returns <b>CHART</b> of specified <b>ITEM</b>.")
                 .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
