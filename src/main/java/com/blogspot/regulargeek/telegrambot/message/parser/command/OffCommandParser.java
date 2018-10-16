@@ -29,7 +29,7 @@ public class OffCommandParser implements SingleCommandParser {
 
     private void validateCommand(String[] parts) throws CommandParseException {
         if (parts.length != 2) {
-            throw new CommandParseException("Invalid message syntax. Type 'HELP OFF' to get proper syntax.");
+            throw new CommandParseException("<b>Invalid message syntax</b>\nType <b>HELP OFF</b> to get proper syntax.");
         }
         String itemName = parts[ITEM_NAME_POSITION];
         ItemDTO dto = openHabItemsService.getItem(itemName);
@@ -48,11 +48,11 @@ public class OffCommandParser implements SingleCommandParser {
     @Override
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Turns OFF specified ITEM.")
-                .append("\n")
+        builder.append("Turns <b>OFF</b> specified <b>ITEM</b>.")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
-                .append("OFF {item_name}");
+                .append("<b>OFF</b> <i>{item_name}</i>");
         return builder.toString();
     }
 }

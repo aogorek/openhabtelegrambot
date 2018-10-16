@@ -31,7 +31,7 @@ public class StateCommandParser implements SingleCommandParser {
 
     private void validateCommand(String[] parts) throws CommandParseException {
         if (parts.length != 2) {
-            throw new CommandParseException("Invalid message syntax. Type 'HELP STATE' to get proper syntax");
+            throw new CommandParseException("<b>Invalid message syntax</b>\nType <b>HELP STATE</b> to get proper syntax");
         }
         String itemName = parts[ITEM_NAME_POSITION];
         ItemDTO dto = openHabItemsService.getItem(itemName);
@@ -50,11 +50,11 @@ public class StateCommandParser implements SingleCommandParser {
     @Override
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Returns STATE of specified ITEM.")
-                .append("\n")
+        builder.append("Returns <b>STATE</b> of specified <b>ITEM</b>.")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
-                .append("STATE {item_name}");
+                .append("<b>STATE</b> <i>{item_name}</i>");
         return builder.toString();
     }
 }

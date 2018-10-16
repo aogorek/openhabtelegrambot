@@ -45,12 +45,12 @@ public class HelpCommandParser implements SingleCommandParser {
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
         builder.append("Return help for OpenHab bot.")
-                .append("\n")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
                 .append("HELP - for message list")
                 .append("\n")
-                .append("HELP {command_name} - for help to specific message");
+                .append("<b>HELP</b> <i>{command_name}</i> - for help to specific message");
         return builder.toString();
     }
 }

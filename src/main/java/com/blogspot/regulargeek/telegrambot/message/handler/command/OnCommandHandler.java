@@ -21,7 +21,11 @@ public class OnCommandHandler extends TelegramCommandHandler<OnCommand> {
 
     private String prepareResponse(Object result) {
         StringBuilder builder = new StringBuilder();
-        builder.append(result.toString());
+        builder.append("Command executed.\n");
+        if (result != null) {
+            builder.append("\n");
+            builder.append(result.toString());
+        }
         return builder.toString();
     }
 

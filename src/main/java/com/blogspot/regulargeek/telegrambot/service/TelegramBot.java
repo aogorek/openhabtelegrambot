@@ -60,7 +60,8 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
 	if (allowedChatIDs.equals("") || allowedChatIDs.equals("*") || Arrays.asList(allowedChatIDs.split(",")).contains(Long.toString(sourceMessage.getChatId()))) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 		        .setChatId(sourceMessage.getChatId())
-		        .setText(callbackQuery.getData());
+		        .setText(callbackQuery.getData())
+		        .enableHtml(true);
 		TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
 		applicationEventPublisher.publishEvent(event);
 	}
@@ -70,7 +71,8 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
 	if (allowedChatIDs.equals("") || allowedChatIDs.equals("*") || Arrays.asList(allowedChatIDs.split(",")).contains(Long.toString(sourceMessage.getChatId()))) {
 		SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
 		        .setChatId(sourceMessage.getChatId())
-		        .setText(sourceMessage.getText());
+		        .setText(sourceMessage.getText())
+		        .enableHtml(true);
 		TelegramCommandReceivedEvent event = new TelegramCommandReceivedEvent(message);
 		applicationEventPublisher.publishEvent(event);
 	}
@@ -117,6 +119,7 @@ public class TelegramBot extends TelegramLongPollingBot implements ApplicationLi
         List<String> splittedMessages = MessageUtil.splitEqually(message.getText(), MessageUtil.MAX_MESSAGE_LENGTH);
         splittedMessages.stream().forEach(s -> {
             message.setText(s);
+            message.enableHtml(true);
             try {
                 execute(message);
             } catch (TelegramApiException e) {

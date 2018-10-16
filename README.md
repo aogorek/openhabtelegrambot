@@ -6,6 +6,7 @@ More details, instruction of use, and a demo on my blog:
 https://regulargeek.blogspot.com/2018/06/control-openhab-using-telegram-messenger.html
 
 # Modifications in this fork
+ - changed message formatting for better readability
  - improved a bit upon security
  - the bot can now be limited to only talk to defined chat IDs
  - the bot can now be limited to control only defined openHAB items (regular expressions possible; check regex101.com)

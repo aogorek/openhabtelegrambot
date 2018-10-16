@@ -21,7 +21,7 @@ public class OffCommandHandler extends TelegramCommandHandler<OffCommand> {
 
     private String prepareResponse(Object result) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Command execuded.");
+        builder.append("Command executed.");
         if (result != null) {
             builder.append("\n");
             builder.append(result.toString());
