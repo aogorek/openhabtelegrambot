@@ -49,10 +49,10 @@ public class ChartCommandParser implements SingleCommandParser {
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
         builder.append("Returns CHART of specified ITEM.")
-                .append("\n")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
-                .append("CHART {item_name}");
+                .append("<b>CHART</b> <i>{item_name}</i>");
         return builder.toString();
     }
 }
