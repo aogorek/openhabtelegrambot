@@ -54,6 +54,6 @@ readOnlyItems=switchLightLivingRoom,switchLightBedRoom
 
 // multiple items' state can be set (with regular expressions)
 readOnlyItems=switchLight.*
-readOnlyItems=switchLight.*,switchPoerOutlet.*
+readOnlyItems=switchLight.*,switchPowerOutlet.*
 
 ```
