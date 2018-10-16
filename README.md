@@ -39,4 +39,21 @@ allowedItems=switchLightLivingRoom,switchLightBedRoom
 // allow multiple items to be controlled through the bot (with regular expressions)
 allowedItems=switchLight.*
 allowedItems=switchLight.*,switchPowerOutlet.*
+
+// all items are unrestricted, their states can be set
+readOnlyItems=
+
+// all items are read only, their states can't be set
+readOnlyItems=*
+
+// only a single item's state can be set
+readOnlyItems=switchLightLivingRoom
+
+// multiple items' state can be set
+readOnlyItems=switchLightLivingRoom,switchLightBedRoom
+
+// multiple items' state can be set (with regular expressions)
+readOnlyItems=switchLight.*
+readOnlyItems=switchLight.*,switchPoerOutlet.*
+
 ```
