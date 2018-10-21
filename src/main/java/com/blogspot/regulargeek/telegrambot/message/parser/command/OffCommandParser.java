@@ -7,6 +7,7 @@ import com.blogspot.regulargeek.telegrambot.exception.CommandParseException;
 import com.blogspot.regulargeek.telegrambot.service.OpenHabItemsService;
 import model.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 
@@ -15,8 +16,21 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 public class OffCommandParser implements SingleCommandParser {
     private static final int ITEM_NAME_POSITION = 1;
 
+    @Value("${readOnlyItems}")
+    private String readOnlyItems;
+
     @Autowired
     private OpenHabItemsService openHabItemsService;
+
+    private boolean isReadOnlyItem(String itemName) {
+        if (readOnlyItems.equals("")) { return false; }
+        if (readOnlyItems.equals("*")) { return true; }
+        String[] arrayReadOnlyItems = readOnlyItems.split(",");
+        for (String s: arrayReadOnlyItems) {
+            if (itemName.equals(s) || itemName.matches(s)) { return true; }
+        }
+        return false;
+    }
 
     public OffCommand parse(SendMessage message) throws CommandParseException {
 
@@ -29,11 +43,15 @@ public class OffCommandParser implements SingleCommandParser {
 
     private void validateCommand(String[] parts) throws CommandParseException {
         if (parts.length != 2) {
-            throw new CommandParseException("Invalid message syntax. Type 'HELP OFF' to get proper syntax.");
+            throw new CommandParseException("<b>Invalid message syntax</b>\nType <b>HELP OFF</b> to get proper syntax.");
         }
         String itemName = parts[ITEM_NAME_POSITION];
-        ItemDTO dto = openHabItemsService.getItem(itemName);
 
+        if (isReadOnlyItem(itemName)) {
+            throw new CommandParseException("Item is <b>READ ONLY</b>.");
+        }
+
+        ItemDTO dto = openHabItemsService.getItem(itemName);
         if (dto == null) {
             throw new CommandParseException("Item not found. Type 'ITEMS' to get list of known items. If item is not visible and is present in OpenHab type 'REFRESH' to reload items.");
         }
@@ -48,11 +66,11 @@ public class OffCommandParser implements SingleCommandParser {
     @Override
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Turns OFF specified ITEM.")
-                .append("\n")
+        builder.append("Turns <b>OFF</b> specified <b>ITEM</b>.")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
-                .append("OFF {item_name}");
+                .append("<b>OFF</b> <i>{item_name}</i>");
         return builder.toString();
     }
 }

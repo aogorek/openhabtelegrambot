@@ -22,8 +22,9 @@ public class ItemsCommandHandler extends TelegramCommandHandler<ItemsCommand> {
     private String prepareResponse(List<ItemDTO> items) {
         StringBuilder builder = new StringBuilder();
         items.stream().forEach(itemDTO ->
-                builder.append(itemDTO.getName())
-                        .append(" - ")
+                builder.append("<b>")
+                        .append(itemDTO.getName())
+                        .append("</b> - ")
                         .append(itemDTO.getLabel())
                         .append("\n"));
         return builder.toString();

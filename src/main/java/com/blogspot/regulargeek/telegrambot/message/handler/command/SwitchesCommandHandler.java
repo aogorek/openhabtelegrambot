@@ -26,12 +26,13 @@ public class SwitchesCommandHandler extends TelegramCommandHandler<SwitchesComma
     private String prepareResponse(List<ItemDTO> items) {
         StringBuilder builder = new StringBuilder();
         items.stream().forEach(itemDTO ->
-                builder.append(itemDTO.getName())
-                        .append(" - ")
+                builder.append("<b>")
+                        .append(itemDTO.getName())
+                        .append("</b> - ")
                         .append(itemDTO.getLabel())
-                        .append(" - ")
+                        .append(" = <b>")
                         .append(itemDTO.getState())
-                        .append("\n"));
+                        .append("</b>\n"));
         return builder.toString();
     }
 

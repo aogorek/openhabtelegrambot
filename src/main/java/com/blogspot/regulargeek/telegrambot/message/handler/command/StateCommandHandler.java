@@ -22,11 +22,11 @@ public class StateCommandHandler extends TelegramCommandHandler<StateCommand> {
 
     private String prepareResponse(ItemDTO itemDTO) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Item: ");
+        builder.append("<b>");
         builder.append(itemDTO.getName());
-        builder.append("\n");
-        builder.append("State: ");
+        builder.append("</b> = <b>");
         builder.append(itemDTO.getState());
+        builder.append("</b>");
         return builder.toString();
     }
 

@@ -29,7 +29,7 @@ public class ChartCommandParser implements SingleCommandParser {
 
     private void validateCommand(String[] parts) throws CommandParseException {
         if (parts.length != 2) {
-            throw new CommandParseException("Invalid message syntax. Type 'HELP CHART' to get proper syntax");
+            throw new CommandParseException("<b>Invalid message syntax</b>\nType <b>HELP CHART</b> to get proper syntax");
         }
         String itemName = parts[ITEM_NAME_POSITION];
         ItemDTO dto = openHabItemsService.getItem(itemName);
@@ -48,11 +48,11 @@ public class ChartCommandParser implements SingleCommandParser {
     @Override
     public String getUsageMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Returns CHART of specified ITEM.")
-                .append("\n")
+        builder.append("Returns <b>CHART</b> of specified <b>ITEM</b>.")
+                .append("\n\n")
                 .append("Usage: ")
                 .append("\n")
-                .append("CHART {item_name}");
+                .append("<b>CHART</b> <i>{item_name}</i>");
         return builder.toString();
     }
 }

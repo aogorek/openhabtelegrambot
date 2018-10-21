@@ -84,7 +84,7 @@ public class MessageParser implements ApplicationListener<ContextRefreshedEvent>
             if (parser != null) {
                 SingleCommandParser parserBean = beanFactory.getBean(parser);
                 SupportedCommand command = parser.getAnnotation(SupportedCommand.class);
-                helpMessages.add(command.command() + " - " + parserBean.getHelpMessage());
+                helpMessages.add("<b>" + command.command() + "</b>\n" + parserBean.getHelpMessage() + "\n");
             }
         });
         return helpMessages;
@@ -93,7 +93,7 @@ public class MessageParser implements ApplicationListener<ContextRefreshedEvent>
     public String getParserUsage(String commandName) {
         SingleCommandParser parser = findParserForCommand(commandName);
         if (parser != null) {
-            return commandName + " - " + parser.getUsageMessage();
+            return "<b>" + commandName + "</b> - " + parser.getUsageMessage();
         }
 
         return "Command not supported.";
